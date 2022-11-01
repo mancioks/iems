@@ -18,4 +18,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('entry', [\App\Http\Controllers\Api\EntryController::class, 'index'])->name('api.entry.index');
+Route::post('init', [\App\Http\Controllers\Api\InitController::class, 'init'])->name('api.init');

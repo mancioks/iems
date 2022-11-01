@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEntryRequest;
-use App\Http\Requests\UpdateEntryRequest;
-use App\Models\Entry;
-use App\Services\IemsWp;
+use App\Http\Requests\UpdateWebsiteRequest;
+use App\Models\Website;
 use Illuminate\Http\Request;
 
-class EntryController extends Controller
+class WebsiteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +15,9 @@ class EntryController extends Controller
      */
     public function index()
     {
+        $websites = Website::all();
 
+        return view('website.index', compact('websites'));
     }
 
     /**
@@ -27,7 +27,7 @@ class EntryController extends Controller
      */
     public function create()
     {
-        return view('entry.create');
+        //
     }
 
     /**
@@ -36,20 +36,9 @@ class EntryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEntryRequest $request)
+    public function store(Request $request)
     {
-        Entry::query()->create($request->validated() + ['type' => Entry::TYPE_TEXT]);
-
-        IemsWp::update();
-
-        return redirect()->route('home')->with('status', __('Entry created'));
-    }
-
-    public function sync()
-    {
-        IemsWp::update();
-
-        return redirect()->back()->with('status', __('Synced'));
+        //
     }
 
     /**
@@ -69,9 +58,9 @@ class EntryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Entry $entry)
+    public function edit(Website $website)
     {
-        return view('entry.edit', compact('entry'));
+        return view('website.edit', compact('website'));
     }
 
     /**
@@ -81,13 +70,11 @@ class EntryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateEntryRequest $request, Entry $entry)
+    public function update(UpdateWebsiteRequest $request, Website $website)
     {
-        $entry->update($request->validated());
+        $website->update($request->validated());
 
-        IemsWp::update();
-
-        return redirect()->route('home')->with('status', __('Entry updated'));
+        return redirect()->route('website.index')->with('status', __('Website updated'));
     }
 
     /**

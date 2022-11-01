@@ -14,6 +14,10 @@
                         </div>
                     @endif
                     <h2>{{ __('Entries') }}</h2>
+                    <div class="mb-3">
+                        <a href="{{ route('entry.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle"></i> {{ __('Create entry') }}</a>
+                        <a href="{{ route('entry.sync') }}" class="btn btn-success btn-sm"><i class="bi bi-arrow-clockwise"></i> {{ __('Synchronize entries') }}</a>
+                    </div>
                     <div>
                         <table class="table table-hover table-bordered table-sm">
                             <thead class="table-light">
@@ -21,6 +25,7 @@
                                 <th>{{ __('Key') }}</th>
                                 <th>{{ __('Type') }}</th>
                                 <th>{{ __('Value') }}</th>
+                                <th>{{ __('Shortcode') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                             </thead>
@@ -30,6 +35,11 @@
                                     <td>{{ $entry->id }}</td>
                                     <td>{{ $entry->type }}</td>
                                     <td>{{ $entry->value }}</td>
+                                    <td>
+                                        <code style="cursor: pointer;" onclick="navigator.clipboard.writeText('[iems id={{ $entry->id }}]')">
+                                            [iems id={{ $entry->id }}]
+                                        </code>
+                                    </td>
                                     <td>
                                         <a href="{{ route('entry.edit', $entry) }}" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill"></i> {{ __('Edit') }}</a>
                                     </td>
@@ -42,7 +52,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <a href="{{ route('entry.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle"></i> {{ __('Create entry') }}</a>
                 </div>
             </div>
         </div>
