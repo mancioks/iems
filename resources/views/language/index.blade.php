@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Websites') }}</div>
+                    <div class="card-header">{{ __('Languages') }}</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -13,39 +13,31 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <h2>{{ __('Websites') }}</h2>
+                        <h2>{{ __('Languages') }}</h2>
                         <div class="mb-3">
-                            <a href="{{ route('website.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle"></i> {{ __('Add website') }}</a>
+                            <a href="{{ route('language.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle"></i> {{ __('Add language') }}</a>
                         </div>
                         <div>
                             <table class="table table-hover table-bordered table-sm">
                                 <thead class="table-light">
                                 <tr>
                                     <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Url') }}</th>
-                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Code') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @forelse($websites as $website)
+                                @forelse($languages as $language)
                                     <tr>
-                                        <td>{{ $website->name }}</td>
-                                        <td>{{ $website->url }}</td>
+                                        <td>{{ $language->name }}</td>
+                                        <td>{{ $language->code }}</td>
                                         <td>
-                                            @if($website->user && $website->token)
-                                                <span class="badge bg-success">{{ __('Activated') }}</span>
-                                            @else
-                                                <span class="badge bg-warning text-dark">{{ __('Not activated') }}</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('website.edit', $website) }}" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill"></i> {{ __('Edit') }}</a>
+                                            <a href="{{ route('language.edit', $language) }}" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill"></i> {{ __('Edit') }}</a>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4">{{ __('No websites') }}</td>
+                                        <td colspan="3">{{ __('No languages') }}</td>
                                     </tr>
                                 @endforelse
                                 </tbody>

@@ -15,4 +15,9 @@ class Entry extends Model
 
     protected $fillable = ['value', 'type'];
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function translations()
+    {
+        return $this->hasMany(\App\Models\Translation::class, 'entry_id', 'id');
+    }
 }

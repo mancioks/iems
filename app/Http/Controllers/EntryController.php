@@ -17,7 +17,7 @@ class EntryController extends Controller
      */
     public function index()
     {
-
+        //
     }
 
     /**
@@ -27,7 +27,9 @@ class EntryController extends Controller
      */
     public function create()
     {
-        return view('entry.create');
+        $languages = \App\Models\Language::all();
+
+        return view('entry.create', compact('languages'));
     }
 
     /**
@@ -38,7 +40,21 @@ class EntryController extends Controller
      */
     public function store(StoreEntryRequest $request)
     {
-        Entry::query()->create($request->validated() + ['type' => Entry::TYPE_TEXT]);
+        $entry = Entry::query()->create($request->validated() + ['type' => Entry::TYPE_TEXT]);
+
+        $translations = $request->input('translation', []);
+
+        foreach ($translations as $languageId => $translation) {
+            if (empty($translation)) {
+                continue;
+            }
+
+            \App\Models\Translation::query()->create([
+                'language_id' => $languageId,
+                'entry_id' => $entry->id,
+                'translation' => $translation,
+            ]);
+        }
 
         IemsWp::update();
 
@@ -71,7 +87,9 @@ class EntryController extends Controller
      */
     public function edit(Entry $entry)
     {
-        return view('entry.edit', compact('entry'));
+        $languages = \App\Models\Language::all();
+
+        return view('entry.edit', compact('entry', 'languages'));
     }
 
     /**
@@ -84,6 +102,28 @@ class EntryController extends Controller
     public function update(UpdateEntryRequest $request, Entry $entry)
     {
         $entry->update($request->validated());
+
+        $translations = $request->input('translation', []);
+
+        foreach ($translations as $languageId => $translationValue) {
+            if (empty($translationValue)) {
+                // delete if exists
+                \App\Models\Translation::query()->where('language_id', $languageId)->where('entry_id', $entry->id)->delete();
+                continue;
+            }
+
+            $translation = \App\Models\Translation::query()->where('language_id', $languageId)->where('entry_id', $entry->id)->first();
+
+            if ($translation) {
+                $translation->update(['translation' => $translationValue]);
+            } else {
+                \App\Models\Translation::query()->create([
+                    'language_id' => $languageId,
+                    'entry_id' => $entry->id,
+                    'translation' => $translationValue,
+                ]);
+            }
+        }
 
         IemsWp::update();
 

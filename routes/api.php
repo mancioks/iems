@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('init', [\App\Http\Controllers\Api\InitController::class, 'init'])->name('api.init');
+Route::post('translate', [\App\Http\Controllers\Api\TranslateController::class, 'translate'])->name('api.translate');

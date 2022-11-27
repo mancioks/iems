@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('entry/sync', [\App\Http\Controllers\EntryController::class, 'sync'])->name('entry.sync');
-Route::resource('entry', \App\Http\Controllers\EntryController::class);
-Route::resource('website', \App\Http\Controllers\WebsiteController::class);
+
+Route::middleware('auth')->group(function () {
+    Route::get('entry/sync', [\App\Http\Controllers\EntryController::class, 'sync'])->name('entry.sync');
+    Route::resource('entry', \App\Http\Controllers\EntryController::class);
+    Route::resource('website', \App\Http\Controllers\WebsiteController::class);
+    Route::resource('language', \App\Http\Controllers\LanguageController::class);
+});
