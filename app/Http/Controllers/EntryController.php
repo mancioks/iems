@@ -25,11 +25,16 @@ class EntryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($type = 'text')
     {
         $languages = \App\Models\Language::all();
+        $types = Entry::TYPES;
 
-        return view('entry.create', compact('languages'));
+        if (!array_key_exists($type, $types)) {
+            return abort(404);
+        }
+
+        return view('entry.create', compact('languages', 'type', 'types'));
     }
 
     /**

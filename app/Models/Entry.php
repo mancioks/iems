@@ -13,6 +13,12 @@ class Entry extends Model
     public const TYPE_BLOCK = 'block';
     public const TYPE_NUMBER = 'number';
 
+    public const TYPES = [
+        self::TYPE_TEXT => 'Simple',
+        self::TYPE_NUMBER => 'Number',
+        self::TYPE_BLOCK => 'Block',
+    ];
+
     protected $fillable = ['value', 'type'];
     protected $hidden = ['created_at', 'updated_at'];
 

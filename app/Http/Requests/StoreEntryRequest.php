@@ -24,7 +24,8 @@ class StoreEntryRequest extends FormRequest
     public function rules()
     {
         return [
-            'value' => 'required'
+            'value' => 'required',
+            'type' => 'required|in:text,block,number',
         ];
     }
 }

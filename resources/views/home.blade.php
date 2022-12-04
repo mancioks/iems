@@ -15,7 +15,16 @@
                     @endif
                     <h2>{{ __('Entries') }}</h2>
                     <div class="mb-3">
-                        <a href="{{ route('entry.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle"></i> {{ __('Create entry') }}</a>
+                        <div class="dropdow d-inline-block">
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-plus-circle"></i> {{ __('Create entry') }}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                @foreach($types as $key => $type)
+                                    <li><a class="dropdown-item" href="{{ route('entry.create') }}/{{ $key }}">{{ $type }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
                         <a href="{{ route('entry.sync') }}" class="btn btn-success btn-sm"><i class="bi bi-arrow-clockwise"></i> {{ __('Synchronize entries') }}</a>
                     </div>
                     <div>
@@ -34,7 +43,7 @@
                                 <tr>
                                     <td>{{ $entry->id }}</td>
                                     <td>{{ $entry->type }}</td>
-                                    <td>{{ $entry->value }}</td>
+                                    <td>{!! $entry->value !!}</td>
                                     <td>
                                         <code style="cursor: pointer;" onclick="navigator.clipboard.writeText('[iems id={{ $entry->id }}]')">
                                             [iems id={{ $entry->id }}]

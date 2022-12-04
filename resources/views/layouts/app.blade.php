@@ -15,6 +15,35 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script src="{{ asset('js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
+    <script>
+        // document on load alert
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.wysiwyg').forEach(function (element) {
+                let spinner = document.createElement('div');
+                spinner.classList.add('wisiwygLoader', 'd-flex', 'justify-content-center', 'align-items-center', 'mt-n4', 'mb-3');
+                spinner.innerHTML = '<div class="spinner-grow text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>';
+                element.parentNode.insertBefore(spinner, element.nextSibling);
+            });
+        });
+
+        tinymce.init({
+            selector: '.wysiwyg',
+            skin: 'tinymce-5',
+            plugins: 'code table lists emoticons wordcount link image fullscreen preview visualblocks searchreplace autolink autoresize advlist image media',
+            toolbar: 'undo redo | formatselect| bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table | link | image | fullscreen',
+            promotion: false,
+            branding: false,
+            setup: function (ed) {
+                ed.on('init', function () {
+                    document.querySelectorAll('.wisiwygLoader').forEach(function (el) {
+                        el.classList.add('d-none');
+                    });
+                });
+            },
+        });
+    </script>
+    @yield('header-scripts')
 </head>
 <body>
     <div id="app">

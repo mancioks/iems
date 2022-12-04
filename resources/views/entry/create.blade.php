@@ -6,43 +6,51 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">{{ __('Create entry') }}</div>
-
                     <div class="card-body">
+                        <div class="form-group mb-2">
+                            <label>{{ __('Type') }}</label>
+                            <div class="form-control ps-2">
+                                @foreach($types as $typeKey => $typeName)
+                                    <a class="btn btn-sm {{ $typeKey === $type ? 'btn-primary border-0' : 'btn-outline-primary border-0' }}" href="{{ route('entry.create') }}/{{ $typeKey }}">{{ $typeName }}</a>
+                                @endforeach
+                            </div>
+                        </div>
                         <form method="post" action="{{ route('entry.store') }}">
                             @csrf
+                            <input type="hidden" name="type" value="{{ $type }}">
                             <div class="form-group">
                                 <label for="value">{{ __('Value') }}</label>
-                                <input type="text" class="form-control" name="value" id="value" placeholder="{{ __('Enter value') }}">
+                                <input type="{{ $type === 'number' ? 'number' : 'text' }}" class="form-control {{ $type === 'block' ? 'wysiwyg' : '' }}" name="value" id="value" placeholder="{{ __('Enter value') }}">
                                 @error('value')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
-                                <small id="emailHelp" class="form-text text-muted">{{ __('Key will be created automatically') }}</small>
                             </div>
-                            <div class="card mt-3 mb-2 shadow shadow-sm">
-                                <div class="card-header bg-secondary text-white">{{ __('Translations') }}</div>
-                                <div class="card-body">
-                                    @foreach($languages as $language)
-                                        <div class="form-group mb-1">
-                                            <label for="translation_{{ $language->code }}">
-                                                <img
-                                                    src="https://countryflagsapi.com/svg/{{ $language->code === 'en' ? 'us' : $language->code }}"
-                                                    height="12"
-                                                    alt="{{ $language->code }}"
-                                                    class="mb-1 rounded rounded-1 shadow shadow-sm"
-                                                />
-                                                {{ $language->name }} ({{ strtoupper($language->code) }})
-                                                <button data-language="{{ $language->code }}"
-                                                        onclick="event.preventDefault();getTranslation(this);"
-                                                        class="border-0 bg-transparent text-primary"
-                                                >
-                                                    <i class="bi bi-translate"></i>
-                                                </button>
-                                            </label>
-                                            <input type="text" class="form-control form-control-sm" id="translation_{{ $language->code }}" name="translation[{{ $language->id }}]" value="{{ old('translation.' . $language->id) }}">
+                            @if($type !== 'number')
+                                <button class="btn btn-secondary w-100 mt-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#translations" aria-expanded="false" aria-controls="translations">
+                                    <i class="bi bi-translate"></i> {{ __('Translations') }}
+                                </button>
+                                <div class="collapse" id="translations">
+                                    <div class="card shadow shadow-sm">
+                                        <div class="card-body">
+                                            @foreach($languages as $language)
+                                                <div class="form-group mb-1">
+                                                    <label for="translation_{{ $language->code }}">
+                                                        <span class="fi fi-{{ $language->code === 'en' ? 'us' : $language->code }} rounded rounded-1"></span>
+                                                        {{ $language->name }} ({{ strtoupper($language->code) }})
+                                                        <button data-language="{{ $language->code }}"
+                                                                onclick="event.preventDefault();getTranslation(this);"
+                                                                class="border-0 bg-transparent text-primary {{ $type === 'block' ? 'd-none' : '' }}"
+                                                        >
+                                                            <i class="bi bi-translate"></i>
+                                                        </button>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-sm entry-input {{ $type === 'block' ? 'wysiwyg' : '' }}" id="translation_{{ $language->code }}" name="translation[{{ $language->id }}]" value="{{ old('translation.' . $language->id) }}">
+                                                </div>
+                                            @endforeach
                                         </div>
-                                    @endforeach
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                             <button type="submit" class="btn btn-sm btn-primary mt-2"><i class="bi bi-plus-circle"></i> {{ __('Create') }}</button>
                         </form>
                     </div>
