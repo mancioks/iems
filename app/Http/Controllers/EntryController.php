@@ -10,21 +10,11 @@ use Illuminate\Http\Request;
 
 class EntryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create($type = 'text')
     {
         $languages = \App\Models\Language::all();
@@ -37,12 +27,6 @@ class EntryController extends Controller
         return view('entry.create', compact('languages', 'type', 'types'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreEntryRequest $request)
     {
         $entry = Entry::query()->create($request->validated() + ['type' => Entry::TYPE_TEXT]);
@@ -73,23 +57,11 @@ class EntryController extends Controller
         return redirect()->back()->with('status', __('Synced'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Entry $entry)
     {
         $languages = \App\Models\Language::all();
@@ -97,13 +69,6 @@ class EntryController extends Controller
         return view('entry.edit', compact('entry', 'languages'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateEntryRequest $request, Entry $entry)
     {
         $entry->update($request->validated());
@@ -135,14 +100,12 @@ class EntryController extends Controller
         return redirect()->route('home')->with('status', __('Entry updated'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Entry $entry)
     {
-        //
+        $entry->delete();
+
+        IemsWp::update();
+
+        return redirect()->route('home')->with('status', __('Entry deleted'));
     }
 }

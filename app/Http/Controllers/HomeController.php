@@ -22,9 +22,20 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        $entries = Entry::all();
+        $search = $request->input('search', '');
+
+        $entries = Entry::query()
+            ->with('translations')
+            ->orderBy('id', 'desc')
+            ->where('value', 'like', '%' . $search . '%')
+            ->orWhereHas('translations', function ($query) use ($search) {
+                $query->where('translation', 'like', '%' . $search . '%');
+            })
+            ->orWhere('id', $search)
+            ->paginate(10);
+
         $types = Entry::TYPES;
 
         return view('home', compact('entries', 'types'));

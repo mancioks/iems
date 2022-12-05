@@ -23,8 +23,10 @@ class IemsWp
 
             $translations = new Collection();
 
-            foreach ($entry->translations as $translation) {
-                $translations->put($translation->language->code, $translation->translation);
+            if ($entry->type !== Entry::TYPE_NUMBER) {
+                foreach ($entry->translations as $translation) {
+                    $translations->put($translation->language->code, $translation->translation);
+                }
             }
 
             $item->put('translations', $translations);

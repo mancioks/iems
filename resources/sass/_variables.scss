@@ -7,3 +7,11 @@ $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 $enable-negative-margins: true;
+
+.child-images-max-width img {
+    max-width: 100%;
+}
+
+.max-400 {
+    max-width: 400px;
+}

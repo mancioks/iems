@@ -18,7 +18,7 @@
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                                 <small id="emailHelp" class="form-text text-muted">{{ __('Current entry value:') }}</small>
-                                <div>
+                                <div class="overflow-auto">
                                     {!! $entry->value !!}
                                 </div>
                             </div>

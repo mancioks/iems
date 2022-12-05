@@ -29,11 +29,14 @@
 
         tinymce.init({
             selector: '.wysiwyg',
-            skin: 'tinymce-5',
-            plugins: 'code table lists emoticons wordcount link image fullscreen preview visualblocks searchreplace autolink autoresize advlist image media',
-            toolbar: 'undo redo | formatselect| bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table | link | image | fullscreen',
+            //skin: 'tinymce-5',
+            plugins: 'code table lists emoticons wordcount link image fullscreen preview visualblocks searchreplace autolink autoresize advlist image media table anchor pagebreak nonbreaking insertdatetime advlist lists help charmap quickbars',
+            toolbar: 'undo redo | formatselect| bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table | link | image | fullscreen | preview | visualblocks | searchreplace | autolink | autoresize | advlist | image | media | anchor | pagebreak | nonbreaking | insertdatetime | advlist | lists | help | charmap | quickbars | emoticons | wordcount | removeformat',
             promotion: false,
             branding: false,
+            image_class_list: [
+                {title: 'Responsive', value: 'img-responsive'}
+            ],
             setup: function (ed) {
                 ed.on('init', function () {
                     document.querySelectorAll('.wisiwygLoader').forEach(function (el) {
@@ -111,5 +114,17 @@
             @yield('content')
         </main>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.confirm').forEach(function (element) {
+                element.addEventListener('click', function (e) {
+                    if (!confirm('Are you sure?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
