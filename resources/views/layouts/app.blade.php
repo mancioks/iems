@@ -74,12 +74,6 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-
-{{--                            @if (Route::has('register'))--}}
-{{--                                <li class="nav-item">--}}
-{{--                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>--}}
-{{--                                </li>--}}
-{{--                            @endif--}}
                         @else
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('website.index') }}">{{ __('Websites') }}</a>
@@ -87,6 +81,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('language.index') }}">{{ __('Languages') }}</a>
                             </li>
+                            @if(auth()->user()->isAdmin())
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('user.index') }}">{{ __('Users') }}</a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -119,7 +118,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.confirm').forEach(function (element) {
                 element.addEventListener('click', function (e) {
-                    if (!confirm('Are you sure?')) {
+                    if (!confirm('{{ __('Are you sure?') }}')) {
                         e.preventDefault();
                     }
                 });

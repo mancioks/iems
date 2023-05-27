@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateWebsiteRequest;
 use App\Http\Requests\UpdateWebsiteRequest;
 use App\Models\Website;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class WebsiteController extends Controller
      */
     public function create()
     {
-        //
+        return view('website.create');
     }
 
     /**
@@ -36,9 +37,11 @@ class WebsiteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateWebsiteRequest $request)
     {
-        //
+        Website::query()->create($request->validated());
+
+        return redirect()->route('website.index')->with('status', __('Website created'));
     }
 
     /**

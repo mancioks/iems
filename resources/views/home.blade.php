@@ -21,7 +21,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 @foreach($types as $key => $type)
-                                    <li><a class="dropdown-item" href="{{ route('entry.create') }}/{{ $key }}">{{ $type }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('entry.create') }}/{{ $key }}">{{ __($type) }}</a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -55,7 +55,7 @@
                             @forelse($entries as $entry)
                                 <tr>
                                     <td>{{ $entry->id }}</td>
-                                    <td>{{ $entry->type }}</td>
+                                    <td>{{ __($types[$entry->type]) }}</td>
                                     <td class="overflow-auto child-images-max-width max-400">{!! $entry->value !!}</td>
                                     <td>
                                         <code style="cursor: pointer;" onclick="navigator.clipboard.writeText('[iems id={{ $entry->id }}]')">
@@ -73,7 +73,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4">{{ __('No entries') }}</td>
+                                    <td colspan="5">{{ __('No entries') }}</td>
                                 </tr>
                             @endforelse
                             </tbody>

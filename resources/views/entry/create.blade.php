@@ -11,7 +11,7 @@
                             <label>{{ __('Type') }}</label>
                             <div class="form-control ps-2">
                                 @foreach($types as $typeKey => $typeName)
-                                    <a class="btn btn-sm {{ $typeKey === $type ? 'btn-primary border-0' : 'btn-outline-primary border-0' }}" href="{{ route('entry.create') }}/{{ $typeKey }}">{{ $typeName }}</a>
+                                    <a class="btn btn-sm {{ $typeKey === $type ? 'btn-primary border-0' : 'btn-outline-primary border-0' }}" href="{{ route('entry.create') }}/{{ $typeKey }}">{{ __($typeName) }}</a>
                                 @endforeach
                             </div>
                         </div>

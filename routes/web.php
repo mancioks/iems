@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -23,4 +24,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('entry', \App\Http\Controllers\EntryController::class);
     Route::resource('website', \App\Http\Controllers\WebsiteController::class);
     Route::resource('language', \App\Http\Controllers\LanguageController::class);
+    Route::resource('user', \App\Http\Controllers\UserController::class);
 });
