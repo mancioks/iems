@@ -13,6 +13,24 @@ class IemsWp
     {
         $entries = Entry::all();
 
+        $entriesCollection = self::createCollectionFromEntries($entries);
+
+        $websites = Website::all();
+
+        foreach ($websites as $website) {
+            if (!$website->user || !$website->token) {
+                continue;
+            }
+
+            Http::withBasicAuth($website->user, $website->token)
+                ->post($website->url . '/wp-json/api/iems', [
+                    'entries' => $entriesCollection
+                ]);
+        }
+    }
+
+    public static function createCollectionFromEntries(Collection $entries): Collection
+    {
         $entriesCollection = new Collection();
 
         foreach ($entries as $entry) {
@@ -34,17 +52,6 @@ class IemsWp
             $entriesCollection->push($item);
         }
 
-        $websites = Website::all();
-
-        foreach ($websites as $website) {
-            if (!$website->user || !$website->token) {
-                continue;
-            }
-
-            Http::withBasicAuth($website->user, $website->token)
-                ->post($website->url . '/wp-json/api/iems', [
-                    'entries' => $entriesCollection
-                ]);
-        }
+        return $entriesCollection;
     }
 }
