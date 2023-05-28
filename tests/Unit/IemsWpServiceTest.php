@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use App\Models\Entry;
 use App\Services\IemsWp;
@@ -14,7 +14,7 @@ class IemsWpServiceTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function testIemsServiceCollectionBuilder()
     {
         $entries = new Collection();
         $entry = new Entry();
