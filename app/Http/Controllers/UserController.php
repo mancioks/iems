@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    private function checkAdmin()
-    {
-        abort_if(!auth()->user()->isAdmin(), 403);
-    }
-
     public function index()
     {
         $this->checkAdmin();

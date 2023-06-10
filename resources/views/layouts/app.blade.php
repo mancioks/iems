@@ -83,6 +83,9 @@
                             </li>
                             @if(auth()->user()->isAdmin())
                                 <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('activity.index') }}">{{ __('Activity') }}</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="{{ route('user.index') }}">{{ __('Users') }}</a>
                                 </li>
                             @endif

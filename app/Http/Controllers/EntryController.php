@@ -6,6 +6,7 @@ use App\Http\Requests\StoreEntryRequest;
 use App\Http\Requests\UpdateEntryRequest;
 use App\Models\Entry;
 use App\Services\IemsWp;
+use App\Services\Logger;
 use Illuminate\Http\Request;
 
 class EntryController extends Controller
@@ -46,6 +47,7 @@ class EntryController extends Controller
         }
 
         IemsWp::update();
+        Logger::log('entry_created', $entry->value);
 
         return redirect()->route('home')->with('status', __('Entry created'));
     }
@@ -53,6 +55,7 @@ class EntryController extends Controller
     public function sync()
     {
         IemsWp::update();
+        Logger::log('entry_sync', 'Synced');
 
         return redirect()->back()->with('status', __('Synced'));
     }
@@ -96,15 +99,20 @@ class EntryController extends Controller
         }
 
         IemsWp::update();
+        Logger::log('entry_updated', sprintf('%s (%s)', $entry->value, $entry->id));
 
         return redirect()->route('home')->with('status', __('Entry updated'));
     }
 
     public function destroy(Entry $entry)
     {
+        $entryValue = $entry->value;
+        $entryId = $entry->id;
+
         $entry->delete();
 
         IemsWp::update();
+        Logger::log('entry_deleted', sprintf('%s (%s)', $entryValue, $entryId));
 
         return redirect()->route('home')->with('status', __('Entry deleted'));
     }

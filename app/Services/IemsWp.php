@@ -22,10 +22,14 @@ class IemsWp
                 continue;
             }
 
-            Http::withBasicAuth($website->user, $website->token)
-                ->post($website->url . '/wp-json/api/iems', [
-                    'entries' => $entriesCollection
-                ]);
+            try {
+                Http::withBasicAuth($website->user, $website->token)
+                    ->post($website->url . '/wp-json/api/iems', [
+                        'entries' => $entriesCollection
+                    ]);
+            } catch (\Exception $e) {
+                Logger::log('website_error', sprintf('%s (%s)', $e->getMessage(), $website->name));
+            }
         }
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateWebsiteRequest;
 use App\Http\Requests\UpdateWebsiteRequest;
 use App\Models\Website;
+use App\Services\Logger;
 use Illuminate\Http\Request;
 
 class WebsiteController extends Controller
@@ -40,6 +41,7 @@ class WebsiteController extends Controller
     public function store(CreateWebsiteRequest $request)
     {
         Website::query()->create($request->validated());
+        Logger::log('website_created', $request->input('name'));
 
         return redirect()->route('website.index')->with('status', __('Website created'));
     }
@@ -76,6 +78,7 @@ class WebsiteController extends Controller
     public function update(UpdateWebsiteRequest $request, Website $website)
     {
         $website->update($request->validated());
+        Logger::log('website_updated', $website->name);
 
         return redirect()->route('website.index')->with('status', __('Website updated'));
     }

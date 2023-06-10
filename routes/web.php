@@ -20,6 +20,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::middleware('auth')->group(function () {
     Route::get('entry/sync', [\App\Http\Controllers\EntryController::class, 'sync'])->name('entry.sync');
+    Route::get('/activity', [\App\Http\Controllers\ActivityController::class, 'index'])->name('activity.index');
     Route::get('entry/create/{type}', [\App\Http\Controllers\EntryController::class, 'create'])->name('entry.create');
     Route::resource('entry', \App\Http\Controllers\EntryController::class);
     Route::resource('website', \App\Http\Controllers\WebsiteController::class);

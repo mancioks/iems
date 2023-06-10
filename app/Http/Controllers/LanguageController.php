@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLanguageRequest;
 use App\Http\Requests\UpdateLanguageRequest;
 use App\Models\Language;
+use App\Services\Logger;
 use Illuminate\Http\Request;
 
 class LanguageController extends Controller
@@ -40,6 +41,7 @@ class LanguageController extends Controller
     public function store(StoreLanguageRequest $request)
     {
         Language::query()->create($request->validated());
+        Logger::log('language_created', $request->input('name'));
 
         return redirect()->route('language.index')->with('status', __('Language created'));
     }
@@ -76,6 +78,7 @@ class LanguageController extends Controller
     public function update(UpdateLanguageRequest $request, Language $language)
     {
         $language->update($request->validated());
+        Logger::log('language_updated', $request->input('name'));
 
         return redirect()->route('language.index')->with('status', __('Language updated'));
     }
